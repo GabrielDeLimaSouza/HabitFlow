@@ -107,6 +107,54 @@ export function buildOverview(logs, habits = []) {
 }
 
 /**
+ * Agrupa taxa de conclusão por dia da semana (Seg a Dom).
+ * @param {{ logged_date: string, completed: boolean }[]} logs
+ * @returns {{ label: string, rate: number|null }[]} 7 entradas, Seg→Dom
+ */
+export function buildWeekdayStats(logs) {
+  const days = Array.from({ length: 7 }, () => ({ completed: 0, total: 0 }))
+  logs.forEach(({ logged_date, completed }) => {
+    const raw = new Date(logged_date + 'T00:00:00').getDay()
+    const idx = raw === 0 ? 6 : raw - 1   // Sun→6, Mon→0
+    days[idx].total++
+    if (completed) days[idx].completed++
+  })
+  const LABELS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
+  return days.map((d, i) => ({
+    label: LABELS[i],
+    rate: d.total > 0 ? Math.round((d.completed / d.total) * 100) : null,
+  }))
+}
+
+/**
+ * Taxa de conclusão por semana (últimas `weeks` semanas, Seg–Dom).
+ * @param {{ logged_date: string, completed: boolean }[]} logs
+ * @param {number} [weeks=12]
+ * @returns {{ label: string, rate: number|null }[]}
+ */
+export function buildWeeklyTrend(logs, weeks = 12) {
+  const today  = new Date()
+  const dow    = today.getDay() === 0 ? 7 : today.getDay()
+  const monday = new Date(today)
+  monday.setDate(today.getDate() - (dow - 1))
+  monday.setHours(0, 0, 0, 0)
+  return Array.from({ length: weeks }, (_, wi) => {
+    const mon = new Date(monday)
+    mon.setDate(monday.getDate() - (weeks - 1 - wi) * 7)
+    const sun = new Date(mon)
+    sun.setDate(mon.getDate() + 6)
+    const start = mon.toLocaleDateString('sv')
+    const end   = sun.toLocaleDateString('sv')
+    const wLogs = logs.filter(l => l.logged_date >= start && l.logged_date <= end)
+    const comp  = wLogs.filter(l => l.completed).length
+    return {
+      label: mon.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+      rate:  wLogs.length > 0 ? Math.round((comp / wLogs.length) * 100) : null,
+    }
+  })
+}
+
+/**
  * Calcula streak e taxa de conclusão por hábito usando dias agendados como denominador.
  * @param {{ id: string, name: string, color: string,
  *           frequency_type: string, frequency_days?: number[] }[]} habits

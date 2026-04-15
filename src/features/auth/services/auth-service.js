@@ -63,17 +63,15 @@ export async function getProfile(userId) {
 /**
  * Garante que o perfil do usuário existe — cria com defaults se ainda não existir.
  * Necessário porque categories.user_id tem FK para profiles.id.
+ * Não faz SELECT: se a linha já existe (ignoreDuplicates), retorna vazio sem erro.
  * @param {string} userId
- * @returns {Promise<object>}
+ * @returns {Promise<void>}
  */
 export async function ensureProfile(userId) {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('profiles')
     .upsert({ id: userId }, { onConflict: 'id', ignoreDuplicates: true })
-    .select()
-    .single()
   if (error) throw error
-  return data
 }
 
 /**

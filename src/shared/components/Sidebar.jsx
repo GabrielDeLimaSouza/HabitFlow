@@ -3,6 +3,7 @@ import { LayoutDashboard, Flame, BarChart2, Tag, Settings, LogOut } from 'lucide
 import { useAuthStore } from '../../features/auth/store/auth-store'
 import { secureLogout } from '../../features/auth/services/auth-service'
 import ThemeToggle from './ThemeToggle'
+import logoUrl from '../../img/logo-habbit-flow.png'
 import styles from './sidebar.module.css'
 
 const NAV_LINKS = [
@@ -20,7 +21,7 @@ function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.brand}>
-        <span className={styles.brandName}>HabitFlow</span>
+        <img src={logoUrl} alt="HabitFlow" className={styles.logoImg} />
       </div>
 
       <nav className={styles.nav}>

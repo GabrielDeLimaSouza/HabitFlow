@@ -48,12 +48,15 @@ Módulos implementados:
   ✅ goals/      GoalBadge, GoalForm, GoalFormModal, use-goals, goal-service
   ✅ categories/ CategoriesPage, CategoryItem (getIcon — nomes minúsculos),
                  CategoryForm, CategoryFormModal, icons.js
-  ✅ stats/      StatsPage, ContributionCalendar (SVG responsivo, labels de mês,
+  ✅ stats/      StatsPage (7 blocos), ContributionCalendar (SVG responsivo, labels de mês,
                  max-height 175px, tooltip DD/MM), OverviewCards (count-up),
-                 HabitStatsList, CategorySelector, use-stats
+                 WeekdayChart (SVG barras animadas, growUp, destaque melhor dia),
+                 WeeklyTrendChart (SVG linha animada drawLine, 12 semanas),
+                 HabitStatsList (ranking visual: ouro/prata/bronze, ordenado por rate30d),
+                 CategorySelector, use-stats (weekdayStats + weeklyTrend expostos)
                  SleepBarChart: legenda texto claro ("8h ou mais" / "Abaixo da meta"),
                  valores acima das barras, preserveAspectRatio corrigido
-                 stats-utils: getExpectedDays() — taxa real por dias agendados
+                 stats-utils: getExpectedDays(), buildWeekdayStats(), buildWeeklyTrend()
                  stats-service: inclui frequency_type + frequency_days no select
   ✅ settings/   SettingsPage (5 seções: Perfil / Aparência / IA / Dados / Conta),
                  ProfileForm, SettingsPrimitives (SettingsSection, SettingsToggle, SettingsAction),
@@ -118,6 +121,19 @@ Módulos implementados:
   - use-insight.js — `generate` virou `useCallback(fn, [])`; adicionada às deps do useEffect
   - HabitForm.jsx, CategoryForm.jsx, GoalForm.jsx — `.trim()` nos campos de texto livres
 
+## Sprint 4 (2026-04-15) — TODOS CORRIGIDOS ✅
+
+### ✅ BUG-05 — StatsPage reestruturada em 7 blocos
+  - WeekdayChart.jsx — SVG barras animadas (growUp + transformOrigin na base),
+    destaque accent no melhor dia, taxa % acima de cada barra
+  - WeeklyTrendChart.jsx — SVG linha animada (stroke-dashoffset drawLine),
+    12 semanas, pontos com fadeIn, labels nas extremidades + meio
+  - HabitStatsList.jsx — ranking visual com ouro/prata/bronze (RANK_COLORS),
+    ordenação descendente por rate30d, barColor vinculado ao rank
+  - stats-utils.js — buildWeekdayStats() + buildWeeklyTrend() adicionados
+  - use-stats.js — weekdayStats + weeklyTrend expostos pelo hook
+  - StatsPage.jsx — estrutura de 7 blocos numerados nos comentários
+
 ## Segurança — status (v6 COMPLETO ✅)
   ✅ GRUPO 1: supabase.js com storage: sessionStorage
               → sessão limpa ao fechar browser; F5 mantém sessão
@@ -161,8 +177,12 @@ Módulos implementados:
   1. ✅ Sprint 1 concluída — 7 bugs corrigidos em 11 arquivos
   2. ✅ Sprint 2 concluída — 6 itens de qualidade corrigidos em 8 arquivos
   3. ✅ Sprint 3 concluída — segurança de sessão v6 completa (6 grupos + ARQU-02)
-  4. Deploy das Edge Functions + secrets no Supabase
-  5. Testar fluxo completo: login → dashboard → hábitos → sono → agente → insights
+  4. ✅ Sprint 4 concluída — StatsPage 7 blocos: WeekdayChart + WeeklyTrendChart + HabitStatsList ranking
+  5. Deploy das Edge Functions + secrets no Supabase
+  6. Testar fluxo completo: login → dashboard → hábitos → sono → agente → insights
+
+## Última atualização: 2026-04-15
+## Última tarefa: Sprint 4 — StatsPage reestruturada em 7 blocos (BUG-05)
 
 ## Contexto completo
 Notion: https://www.notion.so/3284660fcd7980ce82b3d8faff7d6dee

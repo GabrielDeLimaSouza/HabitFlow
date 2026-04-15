@@ -10,15 +10,18 @@ export function useProfile() {
   const [saving, setSaving] = useState(false)
   const [error,  setError]  = useState(null)
 
+  /** @returns {Promise<boolean>} true se salvou com sucesso */
   const save = async (data) => {
-    if (!user) return
+    if (!user) return false
     setSaving(true)
     setError(null)
     try {
       const updated = await upsertProfile(user.id, data)
       setProfile(updated)
+      return true
     } catch (err) {
       setError(err.message ?? 'Erro ao salvar perfil.')
+      return false
     } finally {
       setSaving(false)
     }

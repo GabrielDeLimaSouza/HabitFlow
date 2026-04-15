@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useAuthStore } from '../../auth/store/auth-store'
 import { getLogsRange, getActiveHabits } from '../services/stats-service'
-import { buildCalendar, buildOverview, buildHabitStats } from '../utils/stats-utils'
+import { buildCalendar, buildOverview, buildHabitStats, buildWeekdayStats, buildWeeklyTrend } from '../utils/stats-utils'
 import { localDateISO } from '../../../shared/utils/date-utils'
 
 const DAYS_HISTORY = 365
@@ -53,9 +53,12 @@ export function useStats() {
     return logs.filter((l) => ids.has(l.habit_id))
   }, [logs, filteredHabits, categoryFilter])
 
-  const calendar   = useMemo(() => buildCalendar(filteredLogs),                          [filteredLogs])
-  const overview   = useMemo(() => buildOverview(filteredLogs, filteredHabits),          [filteredLogs, filteredHabits])
-  const habitStats = useMemo(() => buildHabitStats(filteredHabits, filteredLogs),        [filteredHabits, filteredLogs])
+  const calendar     = useMemo(() => buildCalendar(filteredLogs),                   [filteredLogs])
+  const overview     = useMemo(() => buildOverview(filteredLogs, filteredHabits),   [filteredLogs, filteredHabits])
+  const habitStats   = useMemo(() => buildHabitStats(filteredHabits, filteredLogs), [filteredHabits, filteredLogs])
+  const weekdayStats = useMemo(() => buildWeekdayStats(filteredLogs),              [filteredLogs])
+  const weeklyTrend  = useMemo(() => buildWeeklyTrend(filteredLogs),               [filteredLogs])
 
-  return { calendar, overview, habitStats, categories, categoryFilter, setCategoryFilter, loading, error }
+  return { calendar, overview, habitStats, weekdayStats, weeklyTrend,
+           categories, categoryFilter, setCategoryFilter, loading, error }
 }

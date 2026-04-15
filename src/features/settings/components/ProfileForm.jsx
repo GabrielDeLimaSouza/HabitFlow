@@ -39,8 +39,8 @@ function ProfileForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSuccess(false)
-    await save({ name: name.trim(), timezone })
-    setSuccess(true)
+    const ok = await save({ name: name.trim(), timezone })
+    if (ok) setSuccess(true)
   }
 
   return (

@@ -16,10 +16,10 @@ export function useAuth() {
     setSession(session)
     setUser(session?.user ?? null)
     if (session?.user) {
+      // ensureProfile é não-crítico: se falhar (linha já existe ou RLS),
+      // ainda tentamos carregar o perfil existente do banco.
+      try { await ensureProfile(session.user.id) } catch { /* não-crítico */ }
       try {
-        // ensureProfile garante que o perfil existe antes de qualquer operação
-        // que dependa de categories.user_id → profiles.id (FK)
-        await ensureProfile(session.user.id)
         const profile = await getProfile(session.user.id)
         setProfile(profile)
       } catch {
