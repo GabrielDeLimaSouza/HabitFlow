@@ -1,0 +1,144 @@
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+  transition: opacity var(--duration-base) var(--easing);
+}
+
+.item:last-child { border-bottom: none; }
+
+/* Checkbox 32px */
+.toggleWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--habit-color, var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  transition:
+    background var(--duration-base) var(--easing),
+    border-color var(--duration-base) var(--easing);
+}
+
+.completed .toggle {
+  background: var(--habit-color, var(--accent));
+  animation: checkBounce 220ms var(--ease, cubic-bezier(0.16,1,0.3,1)) both;
+}
+
+@keyframes checkBounce {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(0.82); }
+  65%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* Confetti particles */
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--habit-color, var(--accent));
+  pointer-events: none;
+  animation: burst 380ms var(--ease, cubic-bezier(0.16,1,0.3,1)) forwards;
+}
+
+.particle:nth-child(1) { animation-delay:   0ms; --dx: -22px; --dy: -18px; }
+.particle:nth-child(2) { animation-delay:  30ms; --dx:  22px; --dy: -18px; }
+.particle:nth-child(3) { animation-delay:  15ms; --dx: -26px; --dy:   4px; }
+.particle:nth-child(4) { animation-delay:  45ms; --dx:  26px; --dy:   4px; }
+.particle:nth-child(5) { animation-delay:  60ms; --dx:  -8px; --dy:  22px; }
+.particle:nth-child(6) { animation-delay:  20ms; --dx:   8px; --dy:  22px; }
+
+@keyframes burst {
+  from { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  to   { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); opacity: 0; }
+}
+
+/* Ícone / emoji do hábito */
+.icon {
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Info: nome + streak */
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--duration-base) var(--easing);
+}
+
+.completed .name {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.streak {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.streakIcon { color: #f97316; }
+
+/* Botões de ação */
+.iconBtn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  flex-shrink: 0;
+  transition:
+    opacity  var(--duration-base) var(--easing),
+    color    var(--duration-base) var(--easing);
+}
+
+.item:hover .iconBtn { opacity: 1; }
+.iconBtn:hover { color: var(--accent); }
+
+.hasNote {
+  color: var(--accent);
+  opacity: 1;
+}

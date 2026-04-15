@@ -1,0 +1,118 @@
+/* HabitFlow — Animações globais
+   Classes utilitárias reutilizáveis em todo o app.
+   Importe via index.css. */
+
+/* ─── Keyframes ──────────────────────────────────────────── */
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes listItemEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+@keyframes shimmer {
+  from { background-position: 200% center; }
+  to   { background-position: -200% center; }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes checkBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.2); }
+  70%  { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+
+@keyframes drawLine {
+  from { stroke-dashoffset: 1000; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ─── Utilitários ────────────────────────────────────────── */
+
+.page-enter {
+  animation: pageEnter var(--duration-base) var(--easing) both;
+}
+
+.fade-in {
+  animation: fadeIn var(--fade-duration, 200ms) var(--easing) both;
+}
+
+.stagger-item {
+  animation: listItemEnter 250ms var(--easing) both;
+  animation-delay: var(--stagger-delay, 0ms);
+}
+
+.modal-enter {
+  animation: modalEnter var(--duration-base) var(--easing) both;
+}
+
+.input-shake {
+  animation: shake 200ms var(--easing);
+}
+
+.animate-in {
+  animation: fadeSlideUp var(--dur-md, 220ms) var(--ease, ease-out) both;
+}
+
+/* Skeleton loader com shimmer */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-surface)  50%,
+    var(--bg-elevated) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+  border-radius: var(--radius-sm);
+}

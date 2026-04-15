@@ -1,0 +1,142 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sentence {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.valueInput {
+  width: 80px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  outline: none;
+  transition: border-color var(--duration-base) var(--easing);
+}
+
+.valueInput:focus {
+  border-color: var(--border-active);
+}
+
+.select {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  outline: none;
+  transition: border-color var(--duration-base) var(--easing);
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: var(--border-active);
+}
+
+.select option {
+  background: var(--bg-elevated);
+}
+
+.connector {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  padding: 0 var(--space-1);
+}
+
+.customUnit {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  outline: none;
+  width: 100%;
+  transition: border-color var(--duration-base) var(--easing);
+}
+
+.customUnit:focus {
+  border-color: var(--border-active);
+}
+
+.preview {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--accent);
+  background: var(--accent-muted);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-1);
+}
+
+.right {
+  display: flex;
+  gap: var(--space-3);
+  margin-left: auto;
+}
+
+.remove {
+  font-size: var(--font-size-sm);
+  color: var(--error);
+  transition: opacity var(--duration-base) var(--easing);
+}
+
+.remove:hover:not(:disabled) {
+  opacity: 0.75;
+}
+
+.cancel {
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-base) var(--easing);
+}
+
+.cancel:hover {
+  color: var(--text-primary);
+}
+
+.submit {
+  background: var(--accent);
+  color: #fff;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-sm);
+  transition: background var(--duration-base) var(--easing);
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

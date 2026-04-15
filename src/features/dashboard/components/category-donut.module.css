@@ -1,0 +1,90 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.svg {
+  width: 130px;
+  height: 130px;
+  flex-shrink: 0;
+}
+
+@keyframes segmentIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.segment {
+  animation: segmentIn 400ms var(--easing) both;
+}
+
+.centerNum {
+  font-size: 22px;
+  font-weight: 700;
+  fill: var(--text-primary);
+  font-family: var(--font-family);
+}
+
+.centerLabel {
+  font-size: 11px;
+  fill: var(--text-muted);
+  font-family: var(--font-family);
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 140px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.catName {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.catCount {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.askBtn {
+  font-size: var(--font-size-xs);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-pill);
+  padding: 2px var(--space-2);
+  opacity: 0;
+  transition:
+    opacity      var(--duration-base) var(--easing),
+    background   var(--duration-fast) var(--easing);
+}
+
+.legendItem:hover .askBtn {
+  opacity: 1;
+}
+
+.askBtn:hover {
+  background: var(--accent-muted);
+}

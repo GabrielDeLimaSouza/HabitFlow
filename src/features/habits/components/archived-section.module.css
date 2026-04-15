@@ -1,0 +1,111 @@
+.section {
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-4);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+  padding: var(--space-2) 0;
+  transition: color var(--duration-base) var(--easing);
+}
+
+.toggle:hover { color: var(--text-secondary); }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  animation: fadeIn var(--duration-base) var(--easing) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  opacity: 0.6;
+}
+
+.accent {
+  width: 4px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+.name {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-pill);
+  padding: 2px var(--space-2);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.btn {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  transition: background var(--duration-fast) var(--easing), color var(--duration-fast) var(--easing);
+}
+
+.restore {
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.restore:hover { background: var(--accent-muted); }
+
+.delete {
+  color: var(--error);
+  border: 1px solid var(--error);
+}
+
+.delete:hover { background: rgba(239, 68, 68, 0.1); }
+
+/* Confirmação inline */
+.confirm {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  animation: fadeIn var(--duration-base) var(--easing) both;
+}
+
+.confirmYes {
+  color: var(--error);
+  font-weight: var(--font-weight-medium);
+}
+
+.confirmNo {
+  color: var(--text-muted);
+}

@@ -1,0 +1,54 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.svg {
+  width: 100%;
+  display: block;
+  overflow: visible;
+}
+
+@keyframes barRise {
+  from { transform: scaleY(0); transform-origin: bottom; }
+  to   { transform: scaleY(1); transform-origin: bottom; }
+}
+
+.bar {
+  animation: barRise 400ms var(--easing) both;
+}
+
+.refLabel {
+  font-size: 8px;
+  fill: var(--text-muted);
+  font-family: var(--font-family, sans-serif);
+}
+
+.axisLabel {
+  font-size: 9px;
+  fill: var(--text-muted);
+  font-family: var(--font-family, sans-serif);
+}
+
+.barLabel {
+  font-size: 8px;
+  fill: var(--text-secondary);
+  font-family: var(--font-family, sans-serif);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.legendDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}

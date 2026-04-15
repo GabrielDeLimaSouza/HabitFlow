@@ -1,0 +1,19 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Mobile: padding inferior para o BottomBar não sobrepor conteúdo */
+.main {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: var(--bottom-bar-h, 64px);
+}
+
+/* Desktop: deslocar conteúdo para a direita da Sidebar */
+@media (min-width: 1024px) {
+  .main {
+    margin-left: var(--sidebar-w, 240px);
+    padding-bottom: 0;
+  }
+}
