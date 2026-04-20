@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/use-auth'
 import { checkRateLimit, recordFailedAttempt, clearAttempts } from '../utils/login-rate-limit'
 import styles from './login-form.module.css'
@@ -12,12 +12,20 @@ function formatRemaining(ms) {
 function LoginForm() {
   const { signIn }  = useAuth()
   const navigate    = useNavigate()
+  const [searchParams] = useSearchParams()
+  const [confirmed, setConfirmed] = useState(null)
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
   const [error,    setError]    = useState(null)
   const [loading,  setLoading]  = useState(false)
   const [blocked,  setBlocked]  = useState(false)
   const [remaining, setRemaining] = useState(0)
+
+  useEffect(() => {
+    const type = searchParams.get('type')
+    if (type === 'signup')         setConfirmed('signup')
+    if (type === 'password_reset') setConfirmed('password_reset')
+  }, [searchParams])
 
   // Atualiza estado de bloqueio a cada segundo enquanto bloqueado
   useEffect(() => {
@@ -64,6 +72,13 @@ function LoginForm() {
         <h1 className={styles.title}>HabitFlow</h1>
         <p className={styles.subtitle}>Bem-vindo de volta</p>
 
+        {confirmed === 'signup' && (
+          <p className={styles.success}>E-mail confirmado! Faça login para começar.</p>
+        )}
+        {confirmed === 'password_reset' && (
+          <p className={styles.success}>Senha redefinida com sucesso! Faça login.</p>
+        )}
+
         <div className={styles.field}>
           <label htmlFor="email" className={styles.label}>Email</label>
           <input id="email" type="email" className={styles.input} value={email}
@@ -78,6 +93,10 @@ function LoginForm() {
             placeholder="••••••••" required autoComplete="current-password" />
         </div>
 
+        <div className={styles.forgotRow}>
+          <Link to="/forgot-password" className={styles.link}>Esqueci minha senha</Link>
+        </div>
+
         {blocked && (
           <p className={styles.error}>
             Muitas tentativas. Tente novamente em {formatRemaining(remaining)}.
@@ -88,6 +107,10 @@ function LoginForm() {
         <button type="submit" className={styles.button} disabled={loading || blocked}>
           {loading ? 'Entrando...' : blocked ? 'Bloqueado' : 'Entrar'}
         </button>
+        <p className={styles.footer}>
+          Não tem uma conta?{' '}
+          <Link to="/register" className={styles.link}>Criar conta</Link>
+        </p>
       </form>
     </div>
   )

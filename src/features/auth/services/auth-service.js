@@ -75,6 +75,49 @@ export async function ensureProfile(userId) {
 }
 
 /**
+ * Registra novo usuário com email e senha.
+ * Envia e-mail de confirmação via Resend (SMTP configurado no Supabase).
+ * @param {{ email: string, password: string }} credentials
+ * @returns {Promise<{ user: object | null }>}
+ */
+export async function signUp({ email, password }) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${window.location.origin}/login`,
+    },
+  })
+  if (error) throw error
+  return data
+}
+
+/**
+ * Envia e-mail de reset de senha para o endereço informado.
+ * O link redireciona para /reset-password após confirmação.
+ * @param {string} email
+ * @returns {Promise<void>}
+ */
+export async function requestPasswordReset(email) {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/reset-password`,
+  })
+  if (error) throw error
+}
+
+/**
+ * Define uma nova senha para o usuário autenticado via link de reset.
+ * Deve ser chamado apenas na rota /reset-password após o Supabase
+ * ter processado o token da URL e estabelecido a sessão.
+ * @param {string} newPassword
+ * @returns {Promise<void>}
+ */
+export async function confirmPasswordReset(newPassword) {
+  const { error } = await supabase.auth.updateUser({ password: newPassword })
+  if (error) throw error
+}
+
+/**
  * Registra um listener para mudanças no estado de autenticação.
  * @param {(event: string, session: object | null) => void} callback
  * @returns {() => void} unsubscribe

@@ -1,5 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
-import { LoginForm, ProtectedRoute } from './features/auth'
+import {
+  LoginForm,
+  ProtectedRoute,
+  RegisterForm,
+  ForgotPasswordForm,
+  ResetPasswordForm,
+} from './features/auth'
 import { DashboardPage } from './features/dashboard'
 import { HabitsPage } from './features/habits'
 import { CategoriesPage } from './features/categories'
@@ -40,6 +46,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/forgot-password" element={<ForgotPasswordForm />} />
+          <Route path="/reset-password"  element={<ResetPasswordForm />} />
           <Route element={<AppLayout />}>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/habits" element={<HabitsPage />} />

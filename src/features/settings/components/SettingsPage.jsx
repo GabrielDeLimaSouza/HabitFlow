@@ -6,6 +6,7 @@ import { useTheme } from '../../../shared/hooks/use-theme'
 import { useProfile } from '../hooks/use-profile'
 import { exportUserData } from '../services/profile-service'
 import ProfileForm from './ProfileForm'
+import SecuritySection from './SecuritySection'
 import { SettingsSection, SettingsToggle, SettingsAction } from './SettingsPrimitives'
 import styles from './settings-page.module.css'
 
@@ -65,6 +66,8 @@ function SettingsPage() {
             onChange={(v) => save({ ai_enabled: v })}
           />
         </SettingsSection>
+
+        <SecuritySection />
 
         <SettingsSection title="DADOS">
           <SettingsAction

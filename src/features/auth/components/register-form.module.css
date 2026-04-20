@@ -103,14 +103,3 @@
 .link:hover {
   text-decoration: underline;
 }
-
-.success {
-  font-size: var(--font-size-sm);
-  color: var(--success);
-}
-
-.forgotRow {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: calc(var(--space-1) * -1);
-}
