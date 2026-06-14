@@ -7,6 +7,8 @@ React 19 + JavaScript + Vite | Supabase (auth/db/RLS) | Zustand | CSS Modules | 
 /src/features/<modulo>/{components,hooks,services,index.js}
 /src/shared/{components,hooks,utils,styles}
 /src/lib/supabase.js          ← client Supabase (sessionStorage)
+/src/features/legal/          ← .tsx/.ts (páginas legais; Vite compila via esbuild, sem tsconfig)
+/supabase/migrations/         ← migrations SQL versionadas (db push / MCP apply_migration)
 /supabase/functions/habit-ai-agent/index.ts        ← Edge Function (TypeScript — exceção)
 /supabase/functions/habit-weekly-insight/index.ts  ← Edge Function (TypeScript — exceção)
 

@@ -1,0 +1,80 @@
+.page {
+  min-height: 100vh;
+  background: #0a0a0f;
+  color: #e5e5ec;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding: 48px 20px 96px;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #1f1f2a;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  color: #ffffff;
+}
+
+.updated {
+  font-size: 0.875rem;
+  color: #8a8a99;
+  margin: 0;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.heading {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+  color: #ffffff;
+}
+
+.section p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #c4c4d0;
+  margin: 0 0 12px;
+}
+
+.list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.list li {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #c4c4d0;
+  margin-bottom: 10px;
+}
+
+.list strong,
+.section strong {
+  color: #e5e5ec;
+  font-weight: 600;
+}
+
+.link {
+  color: #6366f1;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}

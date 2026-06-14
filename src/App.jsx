@@ -12,6 +12,7 @@ import { CategoriesPage } from './features/categories'
 import { StatsPage } from './features/stats'
 import { SettingsPage } from './features/settings'
 import { AgentDrawer } from './features/ai-agent'
+import PrivacyPolicy from './features/legal/PrivacyPolicy'
 import Sidebar from './shared/components/Sidebar'
 import BottomBar from './shared/components/BottomBar'
 import PageTransition from './shared/components/PageTransition'
@@ -49,6 +50,7 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/forgot-password" element={<ForgotPasswordForm />} />
           <Route path="/reset-password"  element={<ResetPasswordForm />} />
+          <Route path="/privacidade" element={<PrivacyPolicy />} />
           <Route element={<AppLayout />}>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/habits" element={<HabitsPage />} />

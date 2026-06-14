@@ -77,15 +77,21 @@ export async function ensureProfile(userId) {
 /**
  * Registra novo usuário com email e senha.
  * Envia e-mail de confirmação via Resend (SMTP configurado no Supabase).
- * @param {{ email: string, password: string }} credentials
+ * O consentimento da Política de Privacidade é enviado como metadata e
+ * persistido em public.profiles pelo trigger handle_new_user.
+ * @param {{ email: string, password: string, termsVersion: string }} credentials
  * @returns {Promise<{ user: object | null }>}
  */
-export async function signUp({ email, password }) {
+export async function signUp({ email, password, termsVersion }) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       emailRedirectTo: `${window.location.origin}/login`,
+      data: {
+        terms_accepted_at: new Date().toISOString(),
+        terms_version: termsVersion,
+      },
     },
   })
   if (error) throw error

@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { signUp } from '../services/auth-service'
+import { TERMS_VERSION } from '../../legal/constants'
 import styles from './register-form.module.css'
 
 function RegisterForm() {
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
   const [confirm,  setConfirm]  = useState('')
+  const [accepted, setAccepted] = useState(false)
   const [error,    setError]    = useState(null)
   const [loading,  setLoading]  = useState(false)
   const [sent,     setSent]     = useState(false)
@@ -14,6 +16,7 @@ function RegisterForm() {
   const validate = () => {
     if (password.length < 8) return 'A senha deve ter no mínimo 8 caracteres.'
     if (password !== confirm)  return 'As senhas não coincidem.'
+    if (!accepted) return 'Você precisa aceitar a Política de Privacidade para continuar.'
     return null
   }
 
@@ -24,7 +27,7 @@ function RegisterForm() {
     if (validationError) { setError(validationError); return }
     setLoading(true)
     try {
-      await signUp({ email, password })
+      await signUp({ email, password, termsVersion: TERMS_VERSION })
       setSent(true)
     } catch (err) {
       setError(err.message ?? 'Erro ao criar conta. Tente novamente.')
@@ -71,8 +74,17 @@ function RegisterForm() {
             onChange={(e) => setConfirm(e.target.value)}
             placeholder="repita a senha" required autoComplete="new-password" />
         </div>
+        <label className={styles.checkboxField}>
+          <input type="checkbox" className={styles.checkbox} checked={accepted}
+            onChange={(e) => setAccepted(e.target.checked)} />
+          <span className={styles.checkboxLabel}>
+            Li e aceito a{' '}
+            <a href="/privacidade" target="_blank" rel="noopener noreferrer"
+              className={styles.link}>Política de Privacidade</a>
+          </span>
+        </label>
         {error && <p className={styles.error}>{error}</p>}
-        <button type="submit" className={styles.button} disabled={loading}>
+        <button type="submit" className={styles.button} disabled={loading || !accepted}>
           {loading ? 'Criando conta...' : 'Criar conta'}
         </button>
         <p className={styles.footer}>
