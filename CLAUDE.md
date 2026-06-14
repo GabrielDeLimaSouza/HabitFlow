@@ -76,6 +76,9 @@ Módulos implementados:
                  ai-store (activeHabit, activeScreen, hourlyCount, monthlyCount),
                  ai-service (stream), Edge Function: habit-ai-agent
                  (MAX 5/hora, 100/mês, histórico 6 msgs, 400 tokens)
+  ✅ legal/      PrivacyPolicy.tsx (rota pública /privacidade, 13 seções LGPD),
+                 PrivacyPolicy.module.css (tema dark inline, accent #6366f1),
+                 constants.ts → TERMS_VERSION ('2026-06-13'), fonte única de versão
   ✅ shared/     Sidebar.jsx + sidebar.module.css (≥1024px, nav + logout)
                  BottomBar.jsx + bottom-bar.module.css (<1024px, MoreMenu animado)
                  app-layout.module.css | PageTransition.jsx | ThemeToggle.jsx
@@ -84,12 +87,17 @@ Módulos implementados:
                  use-theme.js (Zustand + localStorage)
                  tokens.css — bloco v4 appended (não substituir o arquivo)
   ✅ App.jsx     Layout: Sidebar + main + BottomBar + AgentDrawer (global)
-                 Rotas: / /habits /categories /stats /settings
+                 Rotas privadas: / /habits /categories /stats /settings
+                 Rotas públicas: /login /register /forgot-password /reset-password
+                                 /privacidade (fora de ProtectedRoute)
   ✅ Banco       profiles (+ ai_enabled bool DEFAULT true,
-                           monthly_message_limit int DEFAULT 100),
+                           monthly_message_limit int DEFAULT 100,
+                           terms_accepted_at timestamptz, terms_version text),
                  categories, habits, habit_goals, habit_logs, default_habits,
                  sleep_logs, ai_insights, ai_rate_limits, ai_usage
                  RLS obrigatório: INSERT + UPDATE em profiles (FK de categories)
+                 Trigger on_auth_user_created → handle_new_user() persiste name +
+                 terms_accepted_at + terms_version de raw_user_meta_data (signup)
   ✅ Tema        Light/Dark toggle — data-theme no <html>, tokens separados por tema
 
 ## Bugs — Sprint 1 (2026-04-13) — TODOS CORRIGIDOS ✅
