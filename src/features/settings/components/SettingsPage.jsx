@@ -7,6 +7,7 @@ import { useProfile } from '../hooks/use-profile'
 import { exportUserData } from '../services/profile-service'
 import ProfileForm from './ProfileForm'
 import SecuritySection from './SecuritySection'
+import DeleteAccountModal from './DeleteAccountModal'
 import { SettingsSection, SettingsToggle, SettingsAction } from './SettingsPrimitives'
 import styles from './settings-page.module.css'
 
@@ -17,6 +18,7 @@ function SettingsPage() {
   const { profile, save } = useProfile()
   const navigate          = useNavigate()
   const [exporting, setExporting] = useState(false)
+  const [showDelete, setShowDelete] = useState(false)
 
   const handleSignOut = async () => {
     await signOut()
@@ -88,7 +90,24 @@ function SettingsPage() {
             danger
           />
         </SettingsSection>
+
+        <SettingsSection title="ZONA DE PERIGO">
+          <SettingsAction
+            label="Excluir minha conta"
+            hint="Remove permanentemente sua conta e todos os dados associados"
+            buttonLabel="Excluir conta"
+            onClick={() => setShowDelete(true)}
+            danger
+          />
+        </SettingsSection>
       </div>
+
+      {showDelete && (
+        <DeleteAccountModal
+          onClose={() => setShowDelete(false)}
+          onDeleted={() => navigate('/login')}
+        />
+      )}
     </div>
   )
 }

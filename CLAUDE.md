@@ -60,9 +60,12 @@ Módulos implementados:
                  valores acima das barras, preserveAspectRatio corrigido
                  stats-utils: getExpectedDays(), buildWeekdayStats(), buildWeeklyTrend()
                  stats-service: inclui frequency_type + frequency_days no select
-  ✅ settings/   SettingsPage (5 seções: Perfil / Aparência / IA / Dados / Conta),
-                 ProfileForm, SettingsPrimitives (SettingsSection, SettingsToggle, SettingsAction),
-                 use-profile, profile-service (exportUserData — JSON de 5 tabelas)
+  ✅ settings/   SettingsPage (Perfil / Aparência / IA / Segurança / Dados / Conta /
+                 Zona de perigo), ProfileForm, SecuritySection,
+                 SettingsPrimitives (SettingsSection, SettingsToggle, SettingsAction),
+                 use-profile, profile-service (exportUserData — JSON de 5 tabelas),
+                 DeleteAccountModal (confirmação digitando EXCLUIR),
+                 use-delete-account, account-service (invoke delete-account + signOut)
   ✅ sleep/      SleepCard, SleepModal, SleepBarChart (SVG), use-sleep, sleep-service
                  Tabela: sleep_logs (user_id, sleep_date, bedtime, waketime, duration_min, quality, notes)
   ✅ insights/   InsightCard (4 estados: insuficiente → barra progresso, aguardando segunda →
@@ -176,9 +179,18 @@ Módulos implementados:
   - Decisão de desenho: NÃO coleta data de nascimento — só declaração com timestamp;
     idade ≠ consentimento de dados (checkboxes separados)
 
+### ✅ LGPD-04 — Exclusão de conta (Edge Function + UI)
+  - Edge Function delete-account (deployada, verify_jwt: true) — userId vem só do
+    JWT (getUser), nunca do corpo; service_role só no runtime; auth.admin.deleteUser
+    + CASCADE no banco remove profiles e todas as tabelas filhas
+  - account-service.js — deleteAccount() invoke('delete-account') + signOut()
+  - use-delete-account.js — estado loading/error
+  - DeleteAccountModal.jsx + .module.css — aviso de permanência, exige digitar
+    EXCLUIR, botão destrutivo (--error), cancelar, loading/erro
+  - SettingsPage.jsx — seção "ZONA DE PERIGO" abre o modal; sucesso → /login
+
 ### ⏳ Pendentes da Fase 1 (tarefas separadas — NÃO implementadas)
   - Banner de cookies (vai linkar para /privacidade)
-  - Edge Function de exclusão de conta (citada na seção 7 da política)
 
 ## Segurança — status (v6 COMPLETO ✅)
   ✅ GRUPO 1: supabase.js com storage: sessionStorage
@@ -200,16 +212,19 @@ Módulos implementados:
   ✅ ARQU-02: fetchUsage — cálculo client-side de window_start removido
               hourlyCount incrementado localmente por sessão; servidor aplica via 429
 
-## Agente de IA — status
-  ✅ Edge Function habit-ai-agent: auth dupla, rate limit (5/h + 100/mês), stream,
+## Edge Functions — status
+  ✅ habit-ai-agent: auth dupla, rate limit (5/h + 100/mês), stream,
      histórico 6 msgs, 400 tokens, verifica ai_enabled + monthly_message_limit
-  ✅ Edge Function habit-weekly-insight: Claude Haiku, cache por semana, 300 tokens,
+  ✅ habit-weekly-insight: Claude Haiku, cache por semana, 300 tokens,
      verifica 7 dias com dados, atualiza ai_usage.insight_count
-  ✅ Frontend: drawer streaming + usageBar + salvar nota + MessageBubble
+  ✅ delete-account (deployada, verify_jwt: true): exclui só a própria conta
+     (userId do JWT); auth.admin.deleteUser + CASCADE remove tudo
+  ✅ Frontend IA: drawer streaming + usageBar + salvar nota + MessageBubble
   ⚠️  ANTHROPIC_API_KEY → Supabase Dashboard > Edge Functions > Secrets
   ⚠️  SUPABASE_SERVICE_ROLE_KEY → Supabase Dashboard > Edge Functions > Secrets
   ⚠️  Deploy: supabase functions deploy habit-ai-agent --no-verify-jwt
   ⚠️  Deploy: supabase functions deploy habit-weekly-insight --no-verify-jwt
+  (delete-account usa verify_jwt habilitado — NÃO usar --no-verify-jwt)
 
 ## Bugs corrigidos (histórico)
   - 403 profiles: políticas RLS INSERT + UPDATE faltando → rodar SQL no Supabase
@@ -224,14 +239,14 @@ Módulos implementados:
   2. ✅ Sprint 2 concluída — 6 itens de qualidade corrigidos em 8 arquivos
   3. ✅ Sprint 3 concluída — segurança de sessão v6 completa (6 grupos + ARQU-02)
   4. ✅ Sprint 4 concluída — StatsPage 7 blocos: WeekdayChart + WeeklyTrendChart + HabitStatsList ranking
-  5. ✅ Fase 1 (lançamento) — LGPD: /privacidade + aceite + idade 16+ no cadastro
-  6. Fase 1 pendente — banner de cookies, Edge Function de exclusão de conta
-  7. Deploy das Edge Functions + secrets no Supabase
+  5. ✅ Fase 1 — LGPD: /privacidade + aceite + idade 16+ + exclusão de conta
+  6. Fase 1 pendente — banner de cookies
+  7. Deploy das Edge Functions IA + secrets no Supabase
   8. Testar fluxo completo: login → dashboard → hábitos → sono → agente → insights
 
 ## Última atualização: 2026-06-14
-## Última tarefa: Fase 1 (lançamento) — LGPD-03: declaração de idade 16+ no
-##               cadastro (2º checkbox + age_confirmed_at em profiles)
+## Última tarefa: Fase 1 (lançamento) — LGPD-04: exclusão de conta
+##               (Edge Function delete-account + Zona de perigo na SettingsPage)
 
 ## Contexto completo
 Notion: https://www.notion.so/3284660fcd7980ce82b3d8faff7d6dee
