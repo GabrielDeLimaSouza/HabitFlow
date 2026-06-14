@@ -9,6 +9,7 @@ function RegisterForm() {
   const [password, setPassword] = useState('')
   const [confirm,  setConfirm]  = useState('')
   const [accepted, setAccepted] = useState(false)
+  const [ageConfirmed, setAgeConfirmed] = useState(false)
   const [error,    setError]    = useState(null)
   const [loading,  setLoading]  = useState(false)
   const [sent,     setSent]     = useState(false)
@@ -17,6 +18,7 @@ function RegisterForm() {
     if (password.length < 8) return 'A senha deve ter no mínimo 8 caracteres.'
     if (password !== confirm)  return 'As senhas não coincidem.'
     if (!accepted) return 'Você precisa aceitar a Política de Privacidade para continuar.'
+    if (!ageConfirmed) return 'Você precisa confirmar que tem 16 anos ou mais para continuar.'
     return null
   }
 
@@ -83,8 +85,16 @@ function RegisterForm() {
               className={styles.link}>Política de Privacidade</a>
           </span>
         </label>
+        <label className={styles.checkboxField}>
+          <input type="checkbox" className={styles.checkbox} checked={ageConfirmed}
+            onChange={(e) => setAgeConfirmed(e.target.checked)} />
+          <span className={styles.checkboxLabel}>
+            Confirmo que tenho 16 anos ou mais.
+          </span>
+        </label>
         {error && <p className={styles.error}>{error}</p>}
-        <button type="submit" className={styles.button} disabled={loading || !accepted}>
+        <button type="submit" className={styles.button}
+          disabled={loading || !accepted || !ageConfirmed}>
           {loading ? 'Criando conta...' : 'Criar conta'}
         </button>
         <p className={styles.footer}>

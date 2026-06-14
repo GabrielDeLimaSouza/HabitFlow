@@ -92,12 +92,14 @@ Módulos implementados:
                                  /privacidade (fora de ProtectedRoute)
   ✅ Banco       profiles (+ ai_enabled bool DEFAULT true,
                            monthly_message_limit int DEFAULT 100,
-                           terms_accepted_at timestamptz, terms_version text),
+                           terms_accepted_at timestamptz, terms_version text,
+                           age_confirmed_at timestamptz),
                  categories, habits, habit_goals, habit_logs, default_habits,
                  sleep_logs, ai_insights, ai_rate_limits, ai_usage
                  RLS obrigatório: INSERT + UPDATE em profiles (FK de categories)
                  Trigger on_auth_user_created → handle_new_user() persiste name +
-                 terms_accepted_at + terms_version de raw_user_meta_data (signup)
+                 terms_accepted_at + terms_version + age_confirmed_at de
+                 raw_user_meta_data (signup)
   ✅ Tema        Light/Dark toggle — data-theme no <html>, tokens separados por tema
 
 ## Bugs — Sprint 1 (2026-04-13) — TODOS CORRIGIDOS ✅
@@ -144,6 +146,40 @@ Módulos implementados:
   - use-stats.js — weekdayStats + weeklyTrend expostos pelo hook
   - StatsPage.jsx — estrutura de 7 blocos numerados nos comentários
 
+## Fase 1 — Lançamento (2026-06-14) — EM ANDAMENTO
+
+### ✅ LGPD-01 — Página pública de Política de Privacidade
+  - src/features/legal/PrivacyPolicy.tsx — 13 seções LGPD (controlador CLEH TECH,
+    dados coletados, bases legais, operadores, direitos do titular, etc.)
+  - PrivacyPolicy.module.css — tema dark, max-width 720px, accent #6366f1
+  - App.jsx — rota /privacidade registrada FORA de qualquer guard de auth
+  - vercel.json — rewrite SPA já existente cobre reload direto na URL
+
+### ✅ LGPD-02 — Aceite + registro de consentimento no cadastro
+  - Migration add_terms_consent.sql — colunas terms_accepted_at + terms_version
+    em profiles; handle_new_user() atualizado para persistir consentimento do
+    metadata do signup (aplicada via MCP no projeto aselotqpdgbjvmagdnfy)
+  - src/features/legal/constants.ts — TERMS_VERSION ('2026-06-13'), fonte única
+  - RegisterForm.jsx — checkbox obrigatório com link /privacidade (nova aba),
+    botão bloqueado até aceitar, validação com mensagem clara
+  - auth-service.js — signUp() envia terms_accepted_at + terms_version em
+    options.data (trigger persiste; sem segunda chamada ao banco)
+
+### ✅ LGPD-03 — Declaração de idade 16+ no cadastro
+  - Migration add_age_confirmation.sql — coluna age_confirmed_at em profiles;
+    handle_new_user() preserva termos e acrescenta age_confirmed_at do metadata
+    (aplicada via MCP no projeto aselotqpdgbjvmagdnfy)
+  - RegisterForm.jsx — 2º checkbox SEPARADO "Confirmo que tenho 16 anos ou mais."
+    (declaração, sem link); estado ageConfirmed + validação dedicada
+  - auth-service.js — signUp() envia age_confirmed_at junto a terms_* em options.data
+  - Botão de cadastro só habilita com AMBOS os checkboxes marcados
+  - Decisão de desenho: NÃO coleta data de nascimento — só declaração com timestamp;
+    idade ≠ consentimento de dados (checkboxes separados)
+
+### ⏳ Pendentes da Fase 1 (tarefas separadas — NÃO implementadas)
+  - Banner de cookies (vai linkar para /privacidade)
+  - Edge Function de exclusão de conta (citada na seção 7 da política)
+
 ## Segurança — status (v6 COMPLETO ✅)
   ✅ GRUPO 1: supabase.js com storage: sessionStorage
               → sessão limpa ao fechar browser; F5 mantém sessão
@@ -188,11 +224,14 @@ Módulos implementados:
   2. ✅ Sprint 2 concluída — 6 itens de qualidade corrigidos em 8 arquivos
   3. ✅ Sprint 3 concluída — segurança de sessão v6 completa (6 grupos + ARQU-02)
   4. ✅ Sprint 4 concluída — StatsPage 7 blocos: WeekdayChart + WeeklyTrendChart + HabitStatsList ranking
-  5. Deploy das Edge Functions + secrets no Supabase
-  6. Testar fluxo completo: login → dashboard → hábitos → sono → agente → insights
+  5. ✅ Fase 1 (lançamento) — LGPD: /privacidade + aceite + idade 16+ no cadastro
+  6. Fase 1 pendente — banner de cookies, Edge Function de exclusão de conta
+  7. Deploy das Edge Functions + secrets no Supabase
+  8. Testar fluxo completo: login → dashboard → hábitos → sono → agente → insights
 
-## Última atualização: 2026-04-15
-## Última tarefa: Sprint 4 — StatsPage reestruturada em 7 blocos (BUG-05)
+## Última atualização: 2026-06-14
+## Última tarefa: Fase 1 (lançamento) — LGPD-03: declaração de idade 16+ no
+##               cadastro (2º checkbox + age_confirmed_at em profiles)
 
 ## Contexto completo
 Notion: https://www.notion.so/3284660fcd7980ce82b3d8faff7d6dee
