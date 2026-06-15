@@ -332,6 +332,12 @@ BEGIN
 END;
 $function$;
 
+-- Segurança: nenhuma role de cliente deve invocar estas funções diretamente
+-- (são acionadas por triggers/event triggers com SECURITY DEFINER).
+revoke execute on function public.handle_new_user() from anon, authenticated, public;
+revoke execute on function public.handle_updated_at() from anon, authenticated, public;
+revoke execute on function public.rls_auto_enable() from anon, authenticated, public;
+
 -- -----------------------------------------------------------------------------
 -- TRIGGERS
 -- -----------------------------------------------------------------------------
