@@ -17,7 +17,7 @@ function RegisterForm() {
   const validate = () => {
     if (password.length < 8) return 'A senha deve ter no mínimo 8 caracteres.'
     if (password !== confirm)  return 'As senhas não coincidem.'
-    if (!accepted) return 'Você precisa aceitar a Política de Privacidade para continuar.'
+    if (!accepted) return 'Você precisa aceitar os Termos de Uso e a Política de Privacidade para continuar.'
     if (!ageConfirmed) return 'Você precisa confirmar que tem 16 anos ou mais para continuar.'
     return null
   }
@@ -80,7 +80,10 @@ function RegisterForm() {
           <input type="checkbox" className={styles.checkbox} checked={accepted}
             onChange={(e) => setAccepted(e.target.checked)} />
           <span className={styles.checkboxLabel}>
-            Li e aceito a{' '}
+            Li e aceito os{' '}
+            <a href="/termos" target="_blank" rel="noopener noreferrer"
+              className={styles.link}>Termos de Uso</a>
+            {' '}e a{' '}
             <a href="/privacidade" target="_blank" rel="noopener noreferrer"
               className={styles.link}>Política de Privacidade</a>
           </span>

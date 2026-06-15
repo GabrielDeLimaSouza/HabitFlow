@@ -129,6 +129,10 @@ export default function PrivacyPolicy() {
               <strong>Vercel:</strong> hospedagem do aplicativo.
             </li>
           </ul>
+          <p>
+            Também utilizamos provedores de e-mail e de infraestrutura necessários
+            para enviar e receber comunicações e manter o serviço em funcionamento.
+          </p>
         </section>
 
         <section className={styles.section}>
